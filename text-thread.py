@@ -1,5 +1,7 @@
 import os
 
+Debug = True
+
 from flask import Flask
 app = Flask(__name__)
 
@@ -8,7 +10,7 @@ def hello():
     return 'Hello World!'
 
 #Endpoint that handles Twilio callbacks
-@app.route('/twilio', , methods=['GET', 'POST'])
+@app.route('/twilio', methods=['GET', 'POST'])
 def convert_text_to_comment():
 	return 'Hello Twilio!'
 
