@@ -24,8 +24,7 @@ def convert_text_to_comment():
 	#Set up the comment to send to box
 	box_comment = "{'message':'%s'}", message
 	api_url = "https://www.box.com/api/2.0/files/%s", os.environ['BOX_FILE']
-	api_header = "Authorization : BoxAuth api_key=%s&auth_token=%s", 
-		os.environ['BOX_API_KEY'],os.environ['BOX_AUTH_TOKEN']
+	api_header = "Authorization : BoxAuth api_key=%s&auth_token=%s", os.environ['BOX_API_KEY'],os.environ['BOX_AUTH_TOKEN']
 
 	#Build the request
 	req = urllib2.Request(api_url, box_comment, api_header)
