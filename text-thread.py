@@ -1,11 +1,12 @@
 import os
-import urllib2
+import requests
+import simplejson as json
 
-Debug = True
 
-from flask import Flask
+
+from flask import Flask, request
 app = Flask(__name__)
-
+app.debug = True
 
 @app.route('/twilio', methods=['GET'])
 def convert_text_to_comment():
@@ -22,14 +23,15 @@ def convert_text_to_comment():
 	message = request.args.get('Body')
 
 	#Set up the comment to send to box
-	box_comment = "{'message':'%s'}", message
-	api_url = "https://www.box.com/api/2.0/files/%s", os.environ['BOX_FILE']
-	api_header = "Authorization : BoxAuth api_key=%s&auth_token=%s", os.environ['BOX_API_KEY'],os.environ['BOX_AUTH_TOKEN']
+	box_comment = {'message' : message}
+	
+	#build the request to send to box
+	url = "https://www.box.com/api/2.0/files/%s/comments" % os.environ['BOX_FILE']
+	headers = {'Authorization' : 'BoxAuth api_key=%s&auth_token=%s' % (os.environ['BOX_API_KEY'], os.environ['BOX_AUTH_TOKEN'])}
 
-	#Build the request
-	req = urllib2.Request(api_url, box_comment, api_header)
-	response = urllib2.urlopen(req)
-	print response
+	#send the request
+	r = requests.post(url, data=json.dumps(box_comment), headers=headers)
+	return r.text
     
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
