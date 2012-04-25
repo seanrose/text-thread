@@ -6,7 +6,6 @@ import simplejson as json
 
 from flask import Flask, request
 app = Flask(__name__)
-app.debug = True
 
 @app.route('/twilio', methods=['GET'])
 def convert_text_to_comment():
